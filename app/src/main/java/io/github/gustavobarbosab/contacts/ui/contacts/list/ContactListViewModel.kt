@@ -1,4 +1,6 @@
 package io.github.gustavobarbosab.contacts.ui.contacts.list
 
-class ContactListViewModel {
+import androidx.lifecycle.ViewModel
+
+class ContactListViewModel: ViewModel() {
 }
