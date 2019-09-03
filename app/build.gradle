@@ -40,4 +40,7 @@ dependencies {
 
     // Koin
     implementation 'org.koin:koin-android-viewmodel:2.0.1'
+
+    // LiveData
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha03'
 }
