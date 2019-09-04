@@ -16,8 +16,8 @@ class ContactCursorCreator(private val contentResolver: ContentResolver?) {
             ?.query(
                 uri,
                 PROJECTION,
-                selection,
-                selectionArgs,
+                null,
+                null,
                 sortOrder
             )
     }

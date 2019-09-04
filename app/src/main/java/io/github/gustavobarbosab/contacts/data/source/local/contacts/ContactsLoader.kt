@@ -1,12 +1,13 @@
 package io.github.gustavobarbosab.contacts.data.source.local.contacts
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import io.github.gustavobarbosab.contacts.domain.ContactDto
 
 class ContactsLoader(private val cursorCreator: ContactCursorCreator) {
 
-    private fun getContacts(
+    fun getContacts(
         name: String? = null
     ): LiveData<List<ContactDto>> =
         liveData {
@@ -19,34 +20,32 @@ class ContactsLoader(private val cursorCreator: ContactCursorCreator) {
         cursorCreator
             .createCursorToContactsInfo(name)
             ?.let { cursor ->
-                if (!cursor.moveToNext()) return emptyList()
-
-                val contacts: List<ContactDto> = generateSequence { cursor }
-                    .map {
-                        ContactMapper
-                            .mapToContactWithoutPhone(it)
-                            .apply { phoneList = getContactNumbers(id) }
-                    }.toList()
+                val contacts: List<ContactDto> =
+                    generateSequence { hasNext(cursor) }
+                        .map {
+                            ContactMapper
+                                .mapToContactWithoutPhone(it)
+                                .apply { phoneList = getContactNumbers(id) }
+                        }.toList()
 
                 cursor.close()
-
-                contacts
+                return contacts
             } ?: emptyList()
 
+
+    private fun hasNext(cursor: Cursor) = if (cursor.moveToNext()) cursor else null
 
     private fun getContactNumbers(id: Long): List<String> =
         cursorCreator
             .createPhoneCursor(id)
             ?.let { cursor ->
-                if (!cursor.moveToNext()) return emptyList()
-
-                val phones: List<String> = generateSequence { cursor }
+                val phones: List<String> = generateSequence { hasNext(cursor) }
                     .map { ContactMapper.mapPhone(it) }
                     .toList()
 
                 cursor.close()
 
-                phones
+                return phones
             } ?: emptyList()
 
 }
