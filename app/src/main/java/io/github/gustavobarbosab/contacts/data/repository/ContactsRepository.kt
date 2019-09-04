@@ -1,8 +1,8 @@
 package io.github.gustavobarbosab.contacts.data.repository
 
-import androidx.lifecycle.LiveData
 import io.github.gustavobarbosab.contacts.domain.ContactDto
+import io.github.gustavobarbosab.contacts.utils.Result
 
 interface ContactsRepository {
-    fun getContacts(): LiveData<List<ContactDto>>
+    suspend fun getContacts(): Result<List<ContactDto>>
 }

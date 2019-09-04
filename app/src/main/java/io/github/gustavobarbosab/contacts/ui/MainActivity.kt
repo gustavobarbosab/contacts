@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        supportFragmentManager?.replace(newFragment = ContactListFragment.newInstance())
+        supportFragmentManager.replace(newFragment = ContactListFragment.newInstance())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

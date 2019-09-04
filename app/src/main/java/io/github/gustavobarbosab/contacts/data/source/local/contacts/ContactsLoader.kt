@@ -1,19 +1,13 @@
 package io.github.gustavobarbosab.contacts.data.source.local.contacts
 
 import android.database.Cursor
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
 import io.github.gustavobarbosab.contacts.domain.ContactDto
-import kotlinx.coroutines.Dispatchers
 
 class ContactsLoader(private val cursorCreator: ContactCursorCreator) {
 
     fun getContacts(
         name: String? = null
-    ): LiveData<List<ContactDto>> =
-        liveData(Dispatchers.IO) {
-            emit(getContactsInfo(name))
-        }
+    ): List<ContactDto> = getContactsInfo(name)
 
     private fun getContactsInfo(name: String? = null): List<ContactDto> =
         cursorCreator
@@ -31,9 +25,6 @@ class ContactsLoader(private val cursorCreator: ContactCursorCreator) {
                 return contacts
             } ?: emptyList()
 
-
-    private fun hasNext(cursor: Cursor) = if (cursor.moveToNext()) cursor else null
-
     private fun getContactNumbers(id: Long): List<String> =
         cursorCreator
             .createPhoneCursor(id)
@@ -46,5 +37,7 @@ class ContactsLoader(private val cursorCreator: ContactCursorCreator) {
 
                 return phones
             } ?: emptyList()
+
+    private fun hasNext(cursor: Cursor) = if (cursor.moveToNext()) cursor else null
 
 }
