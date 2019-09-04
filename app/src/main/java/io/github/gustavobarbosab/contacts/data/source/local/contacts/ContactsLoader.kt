@@ -4,17 +4,16 @@ import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import io.github.gustavobarbosab.contacts.domain.ContactDto
+import kotlinx.coroutines.Dispatchers
 
 class ContactsLoader(private val cursorCreator: ContactCursorCreator) {
 
     fun getContacts(
         name: String? = null
     ): LiveData<List<ContactDto>> =
-        liveData {
-            val contacts = getContactsInfo(name)
-            emit(contacts)
+        liveData(Dispatchers.IO) {
+            emit(getContactsInfo(name))
         }
-
 
     private fun getContactsInfo(name: String? = null): List<ContactDto> =
         cursorCreator
