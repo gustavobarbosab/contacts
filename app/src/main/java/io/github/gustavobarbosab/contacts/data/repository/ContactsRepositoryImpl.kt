@@ -2,8 +2,8 @@ package io.github.gustavobarbosab.contacts.data.repository
 
 import io.github.gustavobarbosab.contacts.data.source.ContactsDataSource
 import io.github.gustavobarbosab.contacts.domain.ContactDto
-import io.github.gustavobarbosab.contacts.utils.Result.Success
 import io.github.gustavobarbosab.contacts.utils.Result
+import io.github.gustavobarbosab.contacts.utils.Result.Success
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -12,11 +12,17 @@ class ContactsRepositoryImpl(
     val remoteDataSource: ContactsDataSource
 ) : ContactsRepository {
 
-    private val _contacts: List<ContactDto> = emptyList()
+    private var _contacts: List<ContactDto> = emptyList()
 
-    override suspend fun getContacts(): Result<List<ContactDto>> =
+    override suspend fun getContacts(force: Boolean): Result<List<ContactDto>> =
         withContext(Dispatchers.IO) {
-            if (_contacts.isNotEmpty()) return@withContext Success( _contacts)
-            localDataSource.getContacts()
+            if (force.not() and _contacts.isNotEmpty())
+                return@withContext Success(_contacts)
+
+            val result = localDataSource.getContacts()
+            if (result is Success) {
+                _contacts = result.data
+            }
+            result
         }
 }

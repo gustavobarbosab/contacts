@@ -23,11 +23,13 @@ class ContactListViewModel(private val contactsRepository: ContactsRepository) :
     val loadContacts: MutableLiveData<List<ContactDto>> = _loadContacts
 
     fun getContactList(force: Boolean) {
+        _dataLoading.value = true
         viewModelScope.launch {
-            when (val response = contactsRepository.getContacts()) {
+            when (val response = contactsRepository.getContacts(force)) {
                 is Success -> _loadContacts.value = response.data
                 else -> _snackBarText.value = LiveDataEvent(R.string.app_name)
             }
+            _dataLoading.value = false
         }
     }
 }

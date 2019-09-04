@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.google.android.material.snackbar.Snackbar
 import io.github.gustavobarbosab.contacts.R
 import kotlinx.android.synthetic.main.content_contact_list.*
 import kotlinx.android.synthetic.main.fragment_contact_list.*
@@ -29,6 +28,7 @@ class ContactListFragment : Fragment() {
         setupFabClick()
         setupRecyclerView()
         observeLoadContacts()
+        observeLoading()
     }
 
     override fun onResume() {
@@ -44,16 +44,22 @@ class ContactListFragment : Fragment() {
             })
     }
 
+    private fun observeLoading() {
+        viewModel.dataLoading.observe(this, Observer {
+            when (it) {
+                true -> adapter.clearList() // TODO adicionado para testes
+                else -> {}
+            }
+        })
+    }
+
     private fun setupRecyclerView() {
         rvContactList.adapter = adapter
     }
 
     private fun setupFabClick() {
-        fab.setOnClickListener { view ->
-            Snackbar
-                .make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
+        fab.setOnClickListener {
+            viewModel.getContactList(true)
         }
     }
 

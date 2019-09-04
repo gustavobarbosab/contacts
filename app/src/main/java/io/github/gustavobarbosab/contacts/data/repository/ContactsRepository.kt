@@ -4,5 +4,5 @@ import io.github.gustavobarbosab.contacts.domain.ContactDto
 import io.github.gustavobarbosab.contacts.utils.Result
 
 interface ContactsRepository {
-    suspend fun getContacts(): Result<List<ContactDto>>
+    suspend fun getContacts(force: Boolean): Result<List<ContactDto>>
 }

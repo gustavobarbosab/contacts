@@ -12,10 +12,15 @@ class ContactsRecyclerAdapter : RecyclerView.Adapter<ContactsRecyclerAdapter.Con
 
     var contactsList: MutableList<ContactDto> = mutableListOf()
         set(value) {
-            contactsList.clear()
+            field.clear()
             field.addAll(value)
             notifyDataSetChanged()
         }
+
+    fun clearList() {
+        contactsList.clear()
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactsViewHolder =
         ContactsViewHolder(
