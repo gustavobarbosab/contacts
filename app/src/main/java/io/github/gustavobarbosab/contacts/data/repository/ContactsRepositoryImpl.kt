@@ -13,18 +13,18 @@ class ContactsRepositoryImpl(
     val remoteDataSource: ContactsDataSource
 ) : ContactsRepository {
 
-    private var _contacts: List<ContactDto> = emptyList()
+    private var _cachedContacts: List<ContactDto> = emptyList()
 
     override suspend fun getContacts(force: Boolean): Result<List<ContactDto>> =
         wrapEspressoIdlingResource {
             withContext(Dispatchers.IO) {
 
-                if (force.not() and _contacts.isNotEmpty())
-                    return@withContext Success(_contacts)
+                if (force.not() and _cachedContacts.isNotEmpty())
+                    return@withContext Success(_cachedContacts)
 
                 val result = localDataSource.getContacts()
                 if (result is Success) {
-                    _contacts = result.data
+                    _cachedContacts = result.data
                 }
                 result
             }

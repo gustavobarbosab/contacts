@@ -48,12 +48,14 @@ dependencies {
     testImplementation 'org.koin:koin-test:2.0.1'
     testImplementation 'org.robolectric:robolectric:4.3'
     testImplementation "androidx.arch.core:core-testing:2.0.1"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
 
     // Koin
     implementation 'org.koin:koin-android-viewmodel:2.0.1'
 
     // LifeCycle
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha03"
 }

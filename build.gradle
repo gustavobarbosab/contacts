@@ -37,5 +37,6 @@ ext {
 
     // App dependencies
     coroutinesVersion = '1.2.1'
-    lifecycle_version = "2.0.0-alpha1"
+    lifecycleVersion = "2.0.0-alpha1"
+    mockkVersion = "1.9.3"
 }

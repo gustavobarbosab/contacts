@@ -20,7 +20,7 @@ class ContactListViewModel(private val contactsRepository: ContactsRepository) :
     val snackBarText: LiveData<LiveDataEvent<Int>> = _snackBarText
 
     private val _loadContacts = MutableLiveData<List<ContactDto>>()
-    val loadContacts: MutableLiveData<List<ContactDto>> = _loadContacts
+    val loadContacts: LiveData<List<ContactDto>> = _loadContacts
 
     fun getContactList(force: Boolean) {
         _dataLoading.value = true
