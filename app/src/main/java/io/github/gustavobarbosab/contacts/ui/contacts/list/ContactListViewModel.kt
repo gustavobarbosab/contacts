@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import io.github.gustavobarbosab.contacts.R
 import io.github.gustavobarbosab.contacts.data.repository.ContactsRepository
 import io.github.gustavobarbosab.contacts.domain.ContactDto
-import io.github.gustavobarbosab.contacts.utils.LiveDataEvent
+import io.github.gustavobarbosab.contacts.utils.Event
 import io.github.gustavobarbosab.contacts.utils.Result.Success
 import kotlinx.coroutines.launch
 
@@ -16,8 +16,8 @@ class ContactListViewModel(private val contactsRepository: ContactsRepository) :
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
-    private val _snackBarText = MutableLiveData<LiveDataEvent<Int>>()
-    val snackBarText: LiveData<LiveDataEvent<Int>> = _snackBarText
+    private val _snackBarText = MutableLiveData<Event<Int>>()
+    val snackBarText: LiveData<Event<Int>> = _snackBarText
 
     private val _loadContacts = MutableLiveData<List<ContactDto>>()
     val loadContacts: LiveData<List<ContactDto>> = _loadContacts
@@ -27,7 +27,7 @@ class ContactListViewModel(private val contactsRepository: ContactsRepository) :
         viewModelScope.launch {
             when (val response = contactsRepository.getContacts(force)) {
                 is Success -> _loadContacts.value = response.data
-                else -> _snackBarText.value = LiveDataEvent(R.string.app_name)
+                else -> _snackBarText.value = Event(R.string.app_name)
             }
             _dataLoading.value = false
         }

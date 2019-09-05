@@ -1,22 +1,22 @@
 package io.github.gustavobarbosab.contacts.ui
 
 import android.os.Build
-import androidx.lifecycle.MutableLiveData
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import io.github.gustavobarbosab.contacts.BaseContactTest
+import io.github.gustavobarbosab.contacts.data.repository.ContactsRepositoryImpl
 import io.github.gustavobarbosab.contacts.domain.ContactDto
 import io.github.gustavobarbosab.contacts.ui.contacts.list.ContactListFragment
 import io.github.gustavobarbosab.contacts.ui.contacts.list.ContactListViewModel
-import io.mockk.every
+import io.github.gustavobarbosab.contacts.utils.Result.Success
+import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.Assert.assertEquals
-import org.junit.After
-import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.android.viewmodel.dsl.viewModel
-import org.koin.core.context.stopKoin
-import org.koin.dsl.koinApplication
+import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.KoinTest
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
@@ -24,43 +24,38 @@ import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.LOLLIPOP])
-class MainActivityTest : KoinTest {
+class MainActivityTest : BaseContactTest() {
 
-    val viewModel: ContactListViewModel = mockk(relaxed = true)
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
 
-    val myLiveData = MutableLiveData<List<ContactDto>>().apply {
-        postValue(listOf(ContactDto(1, "", "", emptyList()), ContactDto(1, "", "", emptyList())))
-    }
+    private val repository = mockk<ContactsRepositoryImpl>()
+
+    lateinit var controller: ActivityController<MainActivity>
 
     private lateinit var activity: MainActivity
-    private val controller: ActivityController<MainActivity> =
-        Robolectric.buildActivity(MainActivity::class.java)
 
-    @Before
-    fun init() {
-        koinApplication {
-            module {
-                viewModel { viewModel }
-            }
-        }
-    }
+    override fun before() {
+        super.before()
+        controller = Robolectric.buildActivity(MainActivity::class.java)
 
-    @After
-    fun cleanUp() {
-        stopKoin()
     }
 
     @Test
     @Throws(Exception::class)
     fun `Assert contact list fragment creation`() {
+        coEvery { repository.getContacts(any()) } returns Success(
+            listOf(
+                ContactDto(
+                    0,
+                    "",
+                    "",
+                    listOf()
+                )
+            )
+        )
 
-        every { viewModel.loadContacts } returns myLiveData
-
-        activity = controller
-            .create()
-            .resume()
-            .visible()
-            .get()
+        controller.create().start().resume().visible().get()
 
         assertEquals(1, activity.supportFragmentManager.fragments.size)
         assertEquals(
@@ -68,4 +63,11 @@ class MainActivityTest : KoinTest {
             activity.supportFragmentManager.fragments.firstOrNull()?.javaClass?.name
         )
     }
+
+    override val testModule: Module
+        get() = module(override = true) {
+            viewModel {
+                ContactListViewModel(repository)
+            }
+        }
 }
