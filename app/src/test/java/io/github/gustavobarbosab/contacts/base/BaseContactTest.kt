@@ -1,4 +1,4 @@
-package io.github.gustavobarbosab.contacts
+package io.github.gustavobarbosab.contacts.base
 
 import org.junit.Before
 import org.koin.core.context.loadKoinModules
