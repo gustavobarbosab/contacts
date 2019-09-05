@@ -2,15 +2,15 @@ package io.github.gustavobarbosab.contacts.ui
 
 import android.os.Build
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import io.github.gustavobarbosab.contacts.R
 import io.github.gustavobarbosab.contacts.base.BaseRoboletricTest
-import io.github.gustavobarbosab.contacts.data.repository.ContactsRepositoryImpl
 import io.github.gustavobarbosab.contacts.domain.ContactDto
 import io.github.gustavobarbosab.contacts.ui.contacts.list.ContactListViewModel
-import io.github.gustavobarbosab.contacts.utils.Result.Success
-import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.spyk
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.koin.android.viewmodel.dsl.viewModel
@@ -23,30 +23,22 @@ class MainActivityTest : BaseRoboletricTest<MainActivity>() {
     override val activityClass: Class<MainActivity>
         get() = MainActivity::class.java
 
-    private val repository = mockk<ContactsRepositoryImpl>()
+    private val viewModel = spyk(ContactListViewModel(mockk()))
 
-    private val viewModel = ContactListViewModel(repository)
+    private val liveData = MutableLiveData<List<ContactDto>>()
+
+
+    override fun before() {
+        super.before()
+        every { viewModel.getContactList(any()) } returns Unit
+    }
 
     @Test
     @Config(sdk = [Build.VERSION_CODES.LOLLIPOP])
     @Throws(Exception::class)
     fun `Given an user open screen and there is contacts`() {
         // Given
-        coEvery { repository.getContacts(any()) } returns Success(
-            listOf(
-                ContactDto(
-                    1,
-                    "",
-                    FIRST_NAME,
-                    listOf()
-                ), ContactDto(
-                    2,
-                    "",
-                    SECOND_NAME,
-                    listOf()
-                )
-            )
-        )
+        every { viewModel.loadContacts } returns liveData
 
         // When
         activity = controller
@@ -55,6 +47,21 @@ class MainActivityTest : BaseRoboletricTest<MainActivity>() {
             .resume()
             .visible()
             .get()
+
+        liveData.value = listOf(
+            ContactDto(
+                2,
+                "",
+                FIRST_NAME,
+                listOf()
+            ),
+            ContactDto(
+                2,
+                "",
+                SECOND_NAME,
+                listOf()
+            )
+        )
 
         // Then
         val recyclerView = activity.findViewById<RecyclerView>(R.id.rvContactList)
@@ -75,7 +82,10 @@ class MainActivityTest : BaseRoboletricTest<MainActivity>() {
     @Throws(Exception::class)
     fun `Given an user open screen and there is not contacts`() {
         // Given
-        coEvery { repository.getContacts(any()) } returns Success(listOf())
+        val liveData = MutableLiveData<List<ContactDto>>()
+        every { viewModel.loadContacts } returns liveData
+
+        liveData.value = listOf()
 
         // When
         activity = controller
