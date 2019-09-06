@@ -3,21 +3,29 @@ package io.github.gustavobarbosab.contacts.ui.contacts.list
 import android.os.Build
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.RecyclerView
 import io.github.gustavobarbosab.contacts.R
 import io.github.gustavobarbosab.contacts.base.BaseRoboletricTest
 import io.github.gustavobarbosab.contacts.domain.ContactDto
 import io.github.gustavobarbosab.contacts.ui.MainActivity
+import io.github.gustavobarbosab.contacts.ui.contacts.list.ContactListMockFactory.Companion.FIRST_CONTACT_NAME
+import io.github.gustavobarbosab.contacts.ui.contacts.list.ContactListMockFactory.Companion.SECOND_CONTACT_NAME
+import io.github.gustavobarbosab.contacts.ui.contacts.list.ContactListMockFactory.Companion.contactList
+import io.github.gustavobarbosab.contacts.ui.contacts.list.ContactListMockFactory.Companion.emptyList
+import io.github.gustavobarbosab.contacts.util.getChildView
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
+import kotlinx.android.synthetic.main.content_contact_list.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
+@RunWith(RobolectricTestRunner::class)
 class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
 
     override val activityClass: Class<MainActivity>
@@ -39,67 +47,43 @@ class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
     @Config(sdk = [Build.VERSION_CODES.LOLLIPOP])
     @Throws(Exception::class)
     fun `Given an user open screen and there is contacts`() {
-        // Given
+        // GIVEN
         every { viewModel.loadContacts } returns liveData
 
-        // When
+        // WHEN
         activity = controller
             .setup()
             .get()
 
-        liveData.value = listOf(
-            ContactDto(
-                2,
-                "",
-                FIRST_NAME,
-                listOf()
-            ),
-            ContactDto(
-                2,
-                "",
-                SECOND_NAME,
-                listOf()
-            )
-        )
+        liveData.value = contactList
 
-        // Then
-        val recyclerView = activity.findViewById<RecyclerView>(R.id.rvContactList)
-        val firstNameText = recyclerView
-            .getChildAt(0)
-            .findViewById<TextView>(R.id.tvContactListName)
-        val secondNameText = recyclerView
-            .getChildAt(1)
-            .findViewById<TextView>(R.id.tvContactListName)
+        // THEN
+        val recyclerView = activity.rvContactList
+        val firstNameText = recyclerView.getChildView<TextView>(0, R.id.tvContactListName)
+        val secondNameText = recyclerView.getChildView<TextView>(1, R.id.tvContactListName)
 
-        assertEquals(FIRST_NAME, firstNameText.text)
-        assertEquals(SECOND_NAME, secondNameText.text)
-        assertEquals(RECYCLER_SIZE_WITH_ITEMS, recyclerView.childCount)
+        assertEquals(FIRST_CONTACT_NAME, firstNameText.text)
+        assertEquals(SECOND_CONTACT_NAME, secondNameText.text)
+        assertEquals(contactList.size, recyclerView.childCount)
     }
 
     @Test
     @Config(sdk = [Build.VERSION_CODES.LOLLIPOP])
     @Throws(Exception::class)
     fun `Given an user open screen and there is not contacts`() {
-        // Given
+        // GIVEN
         val liveData = MutableLiveData<List<ContactDto>>()
         every { viewModel.loadContacts } returns liveData
 
-        liveData.value = listOf()
-
-        // When
+        // WHEN
         activity = controller
             .setup()
             .get()
 
-        // Then
-        val recyclerView = activity.findViewById<RecyclerView>(R.id.rvContactList)
-        assertEquals(ZERO, recyclerView.childCount)
-    }
+        liveData.value = emptyList
 
-    companion object {
-        const val FIRST_NAME = "Gustavo Barbosa"
-        const val SECOND_NAME = "Gustavo Barbosa 2"
-        const val RECYCLER_SIZE_WITH_ITEMS = 2
-        const val ZERO = 0
+        // THEN
+        val recyclerView = activity.rvContactList
+        assertEquals(emptyList.size, recyclerView.childCount)
     }
 }

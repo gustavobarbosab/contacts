@@ -7,8 +7,11 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.Assert.assertThat
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
+@RunWith(RobolectricTestRunner::class)
 class MainActivityTest : BaseRoboletricTest<MainActivity>() {
 
     override val activityClass: Class<MainActivity>
@@ -18,10 +21,12 @@ class MainActivityTest : BaseRoboletricTest<MainActivity>() {
     @Config(sdk = [Build.VERSION_CODES.LOLLIPOP])
     @Throws(Exception::class)
     fun `When activity is created, assert actual fragment`() {
-        // When
-        activity = controller.create().start().resume().visible().get()
+        // WHEN
+        activity = controller
+            .setup()
+            .get()
 
-        // Then
+        // THEN
         val fragmentVisible =
             activity.supportFragmentManager.fragments.firstOrNull()
 
