@@ -10,13 +10,13 @@ fun assertLiveDataEventTriggered(
     liveData: LiveData<Event<String>>,
     taskId: String
 ) {
-    val value = LiveDataTestUtil.getValue(liveData)
+    val value = LiveDataTestUtil.getLiveDataValue(liveData)
     assertEquals(value.getContentIfNotHandled(), taskId)
 }
 
 fun assertSnackbarMessage(snackbarLiveData: LiveData<Event<Int>>, messageId: Int) {
-    val value: Event<Int> = LiveDataTestUtil.getValue(snackbarLiveData)
+    val value: Event<Int> = LiveDataTestUtil.getLiveDataValue(snackbarLiveData)
     assertEquals(value.getContentIfNotHandled(), messageId)
 }
 
-fun <T : View> RecyclerView.getChildView(index: Int, viewId: Int) = this.getChildAt(index).findViewById<T>(viewId)
+fun <T : View> RecyclerView.getChildView(index: Int, viewId: Int): T? = this.getChildAt(index).findViewById(viewId)

@@ -1,9 +1,15 @@
 package io.github.gustavobarbosab.contacts.ui.contacts.list
 
+import io.github.gustavobarbosab.contacts.R
 import io.github.gustavobarbosab.contacts.domain.ContactDto
+import io.github.gustavobarbosab.contacts.utils.Event
 
 class ContactListMockFactory {
     companion object {
+
+        val errorEvent
+                get() = Event(R.string.app_name)
+
         val emptyList: List<ContactDto> = emptyList()
 
         val contactList: List<ContactDto>

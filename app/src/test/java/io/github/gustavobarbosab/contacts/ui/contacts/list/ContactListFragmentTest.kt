@@ -62,8 +62,8 @@ class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
         val firstNameText = recyclerView.getChildView<TextView>(0, R.id.tvContactListName)
         val secondNameText = recyclerView.getChildView<TextView>(1, R.id.tvContactListName)
 
-        assertEquals(FIRST_CONTACT_NAME, firstNameText.text)
-        assertEquals(SECOND_CONTACT_NAME, secondNameText.text)
+        assertEquals(FIRST_CONTACT_NAME, firstNameText?.text)
+        assertEquals(SECOND_CONTACT_NAME, secondNameText?.text)
         assertEquals(contactList.size, recyclerView.childCount)
     }
 
