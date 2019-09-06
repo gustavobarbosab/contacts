@@ -46,7 +46,7 @@ class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
     @Test
     @Config(sdk = [Build.VERSION_CODES.LOLLIPOP])
     @Throws(Exception::class)
-    fun `Given an user open screen and there is contacts`() {
+    fun `Given a user open the screen and has contacts`() {
         // GIVEN
         every { viewModel.loadContacts } returns liveData
 
@@ -70,7 +70,7 @@ class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
     @Test
     @Config(sdk = [Build.VERSION_CODES.LOLLIPOP])
     @Throws(Exception::class)
-    fun `Given an user open screen and there is not contacts`() {
+    fun `Given a user open the screen and has no contacts`() {
         // GIVEN
         val liveData = MutableLiveData<List<ContactDto>>()
         every { viewModel.loadContacts } returns liveData
