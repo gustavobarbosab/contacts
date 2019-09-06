@@ -64,6 +64,6 @@ class ContactListFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = ContactListFragment()
+        fun newInstance(): Fragment = ContactListFragment()
     }
 }

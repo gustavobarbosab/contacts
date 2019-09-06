@@ -23,6 +23,9 @@ class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
     override val activityClass: Class<MainActivity>
         get() = MainActivity::class.java
 
+    override val testModule: Module
+        get() = module(override = true) { viewModel { viewModel } }
+
     private val viewModel = spyk(ContactListViewModel(mockk()))
 
     private val liveData = MutableLiveData<List<ContactDto>>()
@@ -41,10 +44,7 @@ class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
 
         // When
         activity = controller
-            .create()
-            .start()
-            .resume()
-            .visible()
+            .setup()
             .get()
 
         liveData.value = listOf(
@@ -88,20 +88,13 @@ class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
 
         // When
         activity = controller
-            .create()
-            .start()
-            .resume()
-            .visible()
+            .setup()
             .get()
 
         // Then
         val recyclerView = activity.findViewById<RecyclerView>(R.id.rvContactList)
         assertEquals(ZERO, recyclerView.childCount)
     }
-
-
-    override val testModule: Module
-        get() = module(override = true) { viewModel { viewModel } }
 
     companion object {
         const val FIRST_NAME = "Gustavo Barbosa"
