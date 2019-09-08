@@ -15,6 +15,7 @@ import io.github.gustavobarbosab.contacts.util.getChildView
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.android.synthetic.main.content_contact_list.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -36,10 +37,11 @@ class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
 
     private val viewModel = spyk(ContactListViewModel(mockk()))
 
-    private val liveData = MutableLiveData<List<ContactDto>>()
+    private lateinit var liveData: MutableLiveData<List<ContactDto>>
 
     override fun before() {
         super.before()
+        liveData = MutableLiveData()
         every { viewModel.getContactList(any()) } returns Unit
     }
 
@@ -72,7 +74,6 @@ class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
     @Throws(Exception::class)
     fun `Given a user open the screen and has no contacts`() {
         // GIVEN
-        val liveData = MutableLiveData<List<ContactDto>>()
         every { viewModel.loadContacts } returns liveData
 
         // WHEN
@@ -85,5 +86,29 @@ class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
         // THEN
         val recyclerView = activity.rvContactList
         assertEquals(emptyList.size, recyclerView.childCount)
+    }
+
+
+    @Test
+    @Config(sdk = [Build.VERSION_CODES.LOLLIPOP])
+    @Throws(Exception::class)
+    fun `Verify if view observe items and call load list`() {
+        // GIVEN
+        every { viewModel.loadContacts } returns liveData
+
+        // WHEN
+        activity = controller
+            .create()
+            .start()
+            .get()
+
+        liveData.value = emptyList
+
+        // THEN
+        verify {
+            viewModel.getContactList(false)
+            viewModel.loadContacts
+            viewModel.snackBarTextError
+        }
     }
 }
