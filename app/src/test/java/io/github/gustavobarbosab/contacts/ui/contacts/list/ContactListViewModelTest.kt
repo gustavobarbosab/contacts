@@ -9,10 +9,9 @@ import io.github.gustavobarbosab.contacts.util.LiveDataTestUtil.Companion.getLiv
 import io.github.gustavobarbosab.contacts.utils.Result
 import io.mockk.coEvery
 import io.mockk.mockk
-import junit.framework.Assert.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Assert.*
 import org.junit.Test
-import java.lang.Exception
 
 @ExperimentalCoroutinesApi
 class ContactListViewModelTest : BaseContactTest() {
@@ -34,11 +33,11 @@ class ContactListViewModelTest : BaseContactTest() {
         viewModel.getContactList(true)
 
         // THEN
-        assertTrue(getLiveDataValue(viewModel.dataLoading))
+        assertTrue(viewModel.isRefreshing.get())
         mainCoroutineRule.resumeDispatcher()
         assertEquals(getLiveDataValue(viewModel.loadContacts), emptyList)
-        assertNull(getLiveDataValue(viewModel.snackBarText))
-        assertFalse(getLiveDataValue(viewModel.dataLoading))
+        assertNull(getLiveDataValue(viewModel.snackBarTextError))
+        assertFalse(viewModel.isRefreshing.get())
     }
 
     @Test
@@ -51,11 +50,11 @@ class ContactListViewModelTest : BaseContactTest() {
         viewModel.getContactList(true)
 
         // THEN
-        assertTrue(getLiveDataValue(viewModel.dataLoading))
+        assertTrue(viewModel.isRefreshing.get())
         mainCoroutineRule.resumeDispatcher()
         assertEquals(getLiveDataValue(viewModel.loadContacts), contactList)
-        assertNull(getLiveDataValue(viewModel.snackBarText))
-        assertFalse(getLiveDataValue(viewModel.dataLoading))
+        assertNull(getLiveDataValue(viewModel.snackBarTextError))
+        assertFalse(viewModel.isRefreshing.get())
     }
 
     @Test
@@ -68,10 +67,13 @@ class ContactListViewModelTest : BaseContactTest() {
         viewModel.getContactList(true)
 
         // THEN
-        assertTrue(getLiveDataValue(viewModel.dataLoading))
+        assertTrue(viewModel.isRefreshing.get())
         mainCoroutineRule.resumeDispatcher()
         assertNull(getLiveDataValue(viewModel.loadContacts))
-        assertSame(getLiveDataValue(viewModel.snackBarText), errorEvent)
-        assertFalse(getLiveDataValue(viewModel.dataLoading))
+        assertEquals(
+            getLiveDataValue(viewModel.snackBarTextError).peekContent(),
+            errorEvent
+        )
+        assertFalse(viewModel.isRefreshing.get())
     }
 }

@@ -1,38 +1,33 @@
 package io.github.gustavobarbosab.contacts.ui.contacts.list
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import io.github.gustavobarbosab.contacts.R
+import io.github.gustavobarbosab.contacts.databinding.FragmentContactListBinding
+import io.github.gustavobarbosab.contacts.ui.BaseFragmentBinding
 import kotlinx.android.synthetic.main.content_contact_list.*
 import kotlinx.android.synthetic.main.fragment_contact_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ContactListFragment : Fragment() {
+class ContactListFragment : BaseFragmentBinding<FragmentContactListBinding>() {
 
+    override val layoutResourceId: Int = R.layout.fragment_contact_list
     private val viewModel: ContactListViewModel by viewModel()
     private val adapter = ContactsRecyclerAdapter() // Injetar depois
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? =
-        inflater.inflate(R.layout.fragment_contact_list, container, false)
+    override fun onCreateView(savedInstanceState: Bundle?) {
+        binding.viewModel = viewModel
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupFabClick()
         setupRecyclerView()
         observeLoadContacts()
-        observeLoading()
-    }
-
-    override fun onResume() {
-        super.onResume()
+        observeError()
         viewModel.getContactList(false)
     }
 
@@ -44,11 +39,10 @@ class ContactListFragment : Fragment() {
             })
     }
 
-    private fun observeLoading() {
-        viewModel.dataLoading.observe(this, Observer {
-            when (it) {
-                true -> adapter.clearList() // TODO adicionado para testes
-                else -> {}
+    private fun observeError() {
+        viewModel.snackBarTextError.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { textResource ->
+                Snackbar.make(binding.root, textResource, Snackbar.LENGTH_SHORT).show()
             }
         })
     }

@@ -8,7 +8,7 @@ class ContactListMockFactory {
     companion object {
 
         val errorEvent
-                get() = Event(R.string.app_name)
+                get() = R.string.error_load_contacts
 
         val emptyList: List<ContactDto> = emptyList()
 

@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Contacts</string>
     <string name="action_settings">Settings</string>
+    <string name="error_load_contacts">Ops&#8230; Houve um erro ao buscar os contatos =/</string>
+    <string name="create_contacts">Essa funcionalidade será implementada em breve =]</string>
 </resources>

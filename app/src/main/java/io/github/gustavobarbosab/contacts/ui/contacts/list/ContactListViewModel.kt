@@ -1,5 +1,6 @@
 package io.github.gustavobarbosab.contacts.ui.contacts.list
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,23 +14,26 @@ import kotlinx.coroutines.launch
 
 class ContactListViewModel(private val contactsRepository: ContactsRepository) : ViewModel() {
 
-    private val _dataLoading = MutableLiveData<Boolean>()
-    val dataLoading: LiveData<Boolean> = _dataLoading
-
-    private val _snackBarText = MutableLiveData<Event<Int>>()
-    val snackBarText: LiveData<Event<Int>> = _snackBarText
+    private val _snackBarTextError = MutableLiveData<Event<Int>>()
+    val snackBarTextError: LiveData<Event<Int>> = _snackBarTextError
 
     private val _loadContacts = MutableLiveData<List<ContactDto>>()
     val loadContacts: LiveData<List<ContactDto>> = _loadContacts
 
+    val isRefreshing = ObservableBoolean()
+
     fun getContactList(force: Boolean) {
-        _dataLoading.value = true
+        isRefreshing.set(true)
         viewModelScope.launch {
             when (val response = contactsRepository.getContacts(force)) {
                 is Success -> _loadContacts.value = response.data
-                else -> _snackBarText.value = Event(R.string.app_name)
+                else -> _snackBarTextError.value = Event(R.string.error_load_contacts)
             }
-            _dataLoading.value = false
+            isRefreshing.set(false)
         }
+    }
+
+    fun onClickAddContact() {
+        _snackBarTextError.value = Event(R.string.create_contacts)
     }
 }
