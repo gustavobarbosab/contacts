@@ -10,8 +10,9 @@
         android:id="@+id/cvContactListPhoto"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:cardCornerRadius="8dp"
         android:layout_margin="8dp"
+        android:padding="8dp"
+        app:cardCornerRadius="8dp"
         app:layout_constraintCircleRadius="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,9 +21,9 @@
             android:id="@+id/ivContactListPhonto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@color/purple"
-            android:background="@color/white"
-            android:scaleType="centerCrop" />
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_person" />
 
     </androidx.cardview.widget.CardView>
 
@@ -31,8 +32,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:textSize="18sp"
         android:textColor="@color/gray"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cvContactListPhoto"
         app:layout_constraintTop_toTopOf="parent"
@@ -43,8 +44,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:textSize="12sp"
         android:textColor="@color/light_gray"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cvContactListPhoto"
         app:layout_constraintTop_toBottomOf="@+id/tvContactListName"
@@ -54,9 +55,10 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_margin="8dp"
-        android:background="@color/light_gray"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"
+        android:background="@color/medium_light_gray"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvContactListPhoto"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvContactListPhoto" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

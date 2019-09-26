@@ -5,7 +5,7 @@ import android.os.Build
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import io.github.gustavobarbosab.contacts.R
-import io.github.gustavobarbosab.contacts.base.BaseRoboletricTest
+import io.github.gustavobarbosab.contacts.base.BaseRobolectricTest
 import io.github.gustavobarbosab.contacts.domain.ContactDto
 import io.github.gustavobarbosab.contacts.ui.MainActivity
 import io.github.gustavobarbosab.contacts.ui.contacts.list.ContactListMockFactory.Companion.FIRST_CONTACT_NAME
@@ -25,12 +25,11 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.Shadows
 import org.robolectric.android.internal.LocalPermissionGranter
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
+class ContactListFragmentTest : BaseRobolectricTest<MainActivity>() {
 
     override val activityClass: Class<MainActivity>
         get() = MainActivity::class.java

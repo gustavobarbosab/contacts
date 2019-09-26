@@ -42,7 +42,7 @@ class ContactsRecyclerAdapter : RecyclerView.Adapter<ContactsRecyclerAdapter.Con
             val uri = Uri.parse(contact.imageUrl)
             holder.itemView.ivContactListPhonto.setImageURI(uri)
         } else {
-            holder.itemView.ivContactListPhonto.setImageResource(R.drawable.ic_avatar)
+            holder.itemView.ivContactListPhonto.setImageResource(R.drawable.ic_person)
         }
     }
 

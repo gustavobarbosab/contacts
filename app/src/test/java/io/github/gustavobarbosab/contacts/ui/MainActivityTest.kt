@@ -1,7 +1,7 @@
 package io.github.gustavobarbosab.contacts.ui
 
 import android.os.Build
-import io.github.gustavobarbosab.contacts.base.BaseRoboletricTest
+import io.github.gustavobarbosab.contacts.base.BaseRobolectricTest
 import io.github.gustavobarbosab.contacts.ui.contacts.list.ContactListFragment
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.instanceOf
@@ -12,7 +12,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-class MainActivityTest : BaseRoboletricTest<MainActivity>() {
+class MainActivityTest : BaseRobolectricTest<MainActivity>() {
 
     override val activityClass: Class<MainActivity>
         get() = MainActivity::class.java
