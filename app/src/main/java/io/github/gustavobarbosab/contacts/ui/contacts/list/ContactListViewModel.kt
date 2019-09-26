@@ -44,7 +44,7 @@ class ContactListViewModel(private val contactsRepository: ContactsRepository) :
 
     fun requestContactList(permissionGranted: Boolean?) {
         when (permissionGranted) {
-            true -> getContactList(true)
+            true -> getContactList(false)
             else -> _requestPermissionReadContact.value = Unit
         }
     }
@@ -52,7 +52,7 @@ class ContactListViewModel(private val contactsRepository: ContactsRepository) :
     fun checkPermissionResult(requestCode: Int, grantResults: IntArray) {
         if (requestCode == REQUEST_CODE_PERMISSION_READ_CONTACT) {
             when (grantResults.firstOrNull()) {
-                PERMISSION_GRANTED -> getContactList(true)
+                PERMISSION_GRANTED -> getContactList(false)
                 else -> _snackBarTextMessage.value =
                     Event(R.string.contact_list_fragment_permission_denied_message)
             }

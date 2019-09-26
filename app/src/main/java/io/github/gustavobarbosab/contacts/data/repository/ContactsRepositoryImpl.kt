@@ -18,7 +18,6 @@ class ContactsRepositoryImpl(
     override suspend fun getContacts(force: Boolean): Result<List<ContactDto>> =
         wrapEspressoIdlingResource {
             withContext(Dispatchers.IO) {
-
                 if (force.not() and _cachedContacts.isNotEmpty())
                     return@withContext Success(_cachedContacts)
 

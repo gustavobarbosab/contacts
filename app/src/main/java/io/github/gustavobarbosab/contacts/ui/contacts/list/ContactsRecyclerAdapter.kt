@@ -37,7 +37,7 @@ class ContactsRecyclerAdapter : RecyclerView.Adapter<ContactsRecyclerAdapter.Con
     override fun onBindViewHolder(holder: ContactsViewHolder, position: Int) {
         val contact = contactsList[position]
         holder.itemView.tvContactListName.text = contactsList[position].name
-        holder.itemView.tvContactListNumber.text = contactsList[position].phoneList[0]
+        holder.itemView.tvContactListNumber.text = contactsList[position].phoneList.firstOrNull()
         if (contact.imageUrl?.isNotEmpty() == true) {
             val uri = Uri.parse(contact.imageUrl)
             holder.itemView.ivContactListPhonto.setImageURI(uri)
