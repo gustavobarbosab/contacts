@@ -1,64 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvContactListPhoto"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="8dp"
-        android:padding="8dp"
-        app:cardCornerRadius="8dp"
-        app:layout_constraintCircleRadius="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<layout>
 
-        <ImageView
-            android:id="@+id/ivContactListPhonto"
+    <data>
+        <variable
+                name="model"
+                type="io.github.gustavobarbosab.contacts.domain.ContactDto" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_person" />
+            android:layout_height="wrap_content">
 
-    </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+                android:id="@+id/cvContactListPhoto"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintCircleRadius="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tvContactListName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:textColor="@color/gray"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cvContactListPhoto"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Teste123" />
+            <ImageView
+                    android:id="@+id/ivContactListPhonto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_person"
+                    app:defaultImg="@{@drawable/ic_person}"
+                    app:sourceURI="@{model.imageUrl}"/>
 
-    <TextView
-        android:id="@+id/tvContactListNumber"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:textColor="@color/light_gray"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cvContactListPhoto"
-        app:layout_constraintTop_toBottomOf="@+id/tvContactListName"
-        tools:text="(34)91234-1234" />
+        </androidx.cardview.widget.CardView>
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_margin="8dp"
-        android:layout_marginStart="24dp"
-        android:background="@color/medium_light_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvContactListPhoto" />
+        <TextView
+                android:id="@+id/tvContactListName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textColor="@color/gray"
+                android:textSize="18sp"
+                android:text="@{model.name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cvContactListPhoto"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Teste123" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+                android:id="@+id/tvContactListNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textColor="@color/light_gray"
+                android:textSize="12sp"
+                android:text="@{model.firstPhone}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cvContactListPhoto"
+                app:layout_constraintTop_toBottomOf="@+id/tvContactListName"
+                tools:text="(34)91234-1234" />
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_margin="8dp"
+                android:layout_marginStart="24dp"
+                android:background="@color/medium_light_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cvContactListPhoto" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

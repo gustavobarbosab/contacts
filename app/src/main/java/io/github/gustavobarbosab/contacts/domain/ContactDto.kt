@@ -5,4 +5,6 @@ data class ContactDto(
     val imageUrl: String? = null,
     val name: String,
     var phoneList: List<String> = listOf()
-)
+) {
+    val firstPhone = phoneList.firstOrNull()
+}
