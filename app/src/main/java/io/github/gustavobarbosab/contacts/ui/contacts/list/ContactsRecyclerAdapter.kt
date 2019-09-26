@@ -1,5 +1,6 @@
 package io.github.gustavobarbosab.contacts.ui.contacts.list
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,15 @@ class ContactsRecyclerAdapter : RecyclerView.Adapter<ContactsRecyclerAdapter.Con
     override fun getItemCount(): Int = contactsList.size
 
     override fun onBindViewHolder(holder: ContactsViewHolder, position: Int) {
+        val contact = contactsList[position]
         holder.itemView.tvContactListName.text = contactsList[position].name
+        holder.itemView.tvContactListNumber.text = contactsList[position].phoneList[0]
+        if (contact.imageUrl?.isNotEmpty() == true) {
+            val uri = Uri.parse(contact.imageUrl)
+            holder.itemView.ivContactListPhonto.setImageURI(uri)
+        } else {
+            holder.itemView.ivContactListPhonto.setImageResource(R.drawable.ic_avatar)
+        }
     }
 
     class ContactsViewHolder(view: View) : RecyclerView.ViewHolder(view)
