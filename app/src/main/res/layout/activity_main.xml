@@ -24,6 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
+        android:paddingTop="8dp"
         android:background="@drawable/list_background"
         app:layout_constraintTop_toBottomOf="@+id/svContactSearch"
         app:layout_constraintStart_toStartOf="parent"
