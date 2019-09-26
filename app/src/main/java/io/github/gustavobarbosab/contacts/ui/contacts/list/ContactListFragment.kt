@@ -9,7 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 import io.github.gustavobarbosab.contacts.R
 import io.github.gustavobarbosab.contacts.databinding.FragmentContactListBinding
 import io.github.gustavobarbosab.contacts.ui.BaseFragmentBinding
-import io.github.gustavobarbosab.contacts.utils.isPermissionDenied
+import io.github.gustavobarbosab.contacts.utils.isPermissionGranted
 import io.github.gustavobarbosab.contacts.utils.requestPermission
 import kotlinx.android.synthetic.main.content_contact_list.*
 import org.koin.android.ext.android.inject
@@ -31,7 +31,7 @@ class ContactListFragment : BaseFragmentBinding<FragmentContactListBinding>() {
         observeLoadContacts()
         observeMessage()
         observeRequestPermissionReadContact()
-        requestPermission()
+        requestContactList()
     }
 
     private fun observeRequestPermissionReadContact() {
@@ -40,8 +40,9 @@ class ContactListFragment : BaseFragmentBinding<FragmentContactListBinding>() {
         })
     }
 
-    private fun requestPermission() {
-        viewModel.checkReadContactPermission(context?.isPermissionDenied(permission.READ_CONTACTS))
+    private fun requestContactList() {
+        val permissionGranted = context?.isPermissionGranted(permission.READ_CONTACTS)
+        viewModel.requestContactList(permissionGranted)
     }
 
     override fun onRequestPermissionsResult(

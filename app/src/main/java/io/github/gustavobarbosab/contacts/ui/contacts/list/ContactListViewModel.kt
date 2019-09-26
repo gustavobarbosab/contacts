@@ -42,10 +42,10 @@ class ContactListViewModel(private val contactsRepository: ContactsRepository) :
         _snackBarTextMessage.value = Event(R.string.create_contacts)
     }
 
-    fun checkReadContactPermission(permissionDenied: Boolean?) {
-        when (permissionDenied) {
-            true -> _requestPermissionReadContact.value = Unit
-            else -> getContactList(true)
+    fun requestContactList(permissionGranted: Boolean?) {
+        when (permissionGranted) {
+            true -> getContactList(true)
+            else -> _requestPermissionReadContact.value = Unit
         }
     }
 

@@ -7,11 +7,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
-fun Context.isPermissionDenied(permission: String) =
+fun Context.isPermissionGranted(permission: String) =
     ContextCompat.checkSelfPermission(
         this,
         permission
-    ) != PackageManager.PERMISSION_GRANTED
+    ) == PackageManager.PERMISSION_GRANTED
 
 fun Activity.requestPermission(vararg permissions: String) {
     ActivityCompat.requestPermissions(
