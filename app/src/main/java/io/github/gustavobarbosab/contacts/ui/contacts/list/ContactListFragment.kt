@@ -9,7 +9,6 @@ import io.github.gustavobarbosab.contacts.R
 import io.github.gustavobarbosab.contacts.databinding.FragmentContactListBinding
 import io.github.gustavobarbosab.contacts.ui.BaseFragmentBinding
 import kotlinx.android.synthetic.main.content_contact_list.*
-import kotlinx.android.synthetic.main.fragment_contact_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ContactListFragment : BaseFragmentBinding<FragmentContactListBinding>() {
@@ -24,7 +23,6 @@ class ContactListFragment : BaseFragmentBinding<FragmentContactListBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupFabClick()
         setupRecyclerView()
         observeLoadContacts()
         observeError()
@@ -49,12 +47,6 @@ class ContactListFragment : BaseFragmentBinding<FragmentContactListBinding>() {
 
     private fun setupRecyclerView() {
         rvContactList.adapter = adapter
-    }
-
-    private fun setupFabClick() {
-        fab.setOnClickListener {
-            viewModel.getContactList(true)
-        }
     }
 
     companion object {

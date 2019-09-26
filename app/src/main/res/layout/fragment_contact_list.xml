@@ -14,6 +14,7 @@
             android:layout_height="match_parent">
 
         <include
+                android:id="@+id/content"
                 layout="@layout/content_contact_list"
                 app:viewModel="@{viewModel}" />
 
