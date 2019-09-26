@@ -5,6 +5,7 @@ import io.github.gustavobarbosab.contacts.di.Module.Companion.appModule
 import io.github.gustavobarbosab.contacts.di.Module.Companion.dataSourceModule
 import io.github.gustavobarbosab.contacts.di.Module.Companion.repositoryModule
 import io.github.gustavobarbosab.contacts.di.Module.Companion.viewModelModule
+import io.github.gustavobarbosab.contacts.ui.contacts.list.ContactListModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -23,7 +24,8 @@ class ContactsApp : Application() {
                     appModule,
                     viewModelModule,
                     repositoryModule,
-                    dataSourceModule
+                    dataSourceModule,
+                    ContactListModule.moduleInstance
                 )
             )
         }

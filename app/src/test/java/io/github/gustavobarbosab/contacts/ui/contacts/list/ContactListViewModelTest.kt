@@ -36,7 +36,7 @@ class ContactListViewModelTest : BaseContactTest() {
         assertTrue(viewModel.isRefreshing.get())
         mainCoroutineRule.resumeDispatcher()
         assertEquals(getLiveDataValue(viewModel.loadContacts), emptyList)
-        assertNull(getLiveDataValue(viewModel.snackBarTextError))
+        assertNull(getLiveDataValue(viewModel.snackBarTextMessage))
         assertFalse(viewModel.isRefreshing.get())
     }
 
@@ -53,7 +53,7 @@ class ContactListViewModelTest : BaseContactTest() {
         assertTrue(viewModel.isRefreshing.get())
         mainCoroutineRule.resumeDispatcher()
         assertEquals(getLiveDataValue(viewModel.loadContacts), contactList)
-        assertNull(getLiveDataValue(viewModel.snackBarTextError))
+        assertNull(getLiveDataValue(viewModel.snackBarTextMessage))
         assertFalse(viewModel.isRefreshing.get())
     }
 
@@ -71,7 +71,7 @@ class ContactListViewModelTest : BaseContactTest() {
         mainCoroutineRule.resumeDispatcher()
         assertNull(getLiveDataValue(viewModel.loadContacts))
         assertEquals(
-            getLiveDataValue(viewModel.snackBarTextError).peekContent(),
+            getLiveDataValue(viewModel.snackBarTextMessage).peekContent(),
             errorEvent
         )
         assertFalse(viewModel.isRefreshing.get())

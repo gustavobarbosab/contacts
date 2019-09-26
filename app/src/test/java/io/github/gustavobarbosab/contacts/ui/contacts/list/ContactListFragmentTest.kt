@@ -1,5 +1,6 @@
 package io.github.gustavobarbosab.contacts.ui.contacts.list
 
+import android.Manifest
 import android.os.Build
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
@@ -24,6 +25,8 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows
+import org.robolectric.android.internal.LocalPermissionGranter
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
@@ -41,6 +44,11 @@ class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
 
     override fun before() {
         super.before()
+        LocalPermissionGranter().apply {
+            addPermissions(Manifest.permission.READ_CONTACTS)
+            requestPermissions()
+        }
+
         liveData = MutableLiveData()
         every { viewModel.getContactList(any()) } returns Unit
     }
@@ -106,9 +114,8 @@ class ContactListFragmentTest : BaseRoboletricTest<MainActivity>() {
 
         // THEN
         verify {
-            viewModel.getContactList(false)
             viewModel.loadContacts
-            viewModel.snackBarTextError
+            viewModel.snackBarTextMessage
         }
     }
 }
