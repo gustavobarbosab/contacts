@@ -13,4 +13,4 @@ Neste projeto foram usadas as seguintes ferramentas:
 * Mockk
 
 
-<img src="food-delivery.gif" alt="drawing" width="338" heigh="600"/>
+<img src="contacts-preview.png" alt="drawing" width="338" heigh="600"/>
